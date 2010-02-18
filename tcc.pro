@@ -19,4 +19,5 @@ HEADERS += scanner.h \
     parser.h \
     node.h
 OTHER_FILES += test11.txt \
-    README
+    README \
+    Makefile
