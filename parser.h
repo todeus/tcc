@@ -10,7 +10,16 @@ class Parser
     Scanner *s;
     Parser(Scanner *scan);
     SynExpr * ParseExpr();
-    SynExpr * ParseTerm();
+    SynExpr * ParseAssignExpr();
+    SynExpr * ParseLogOrExpr();
+    SynExpr * ParseLogAndExpr();
+    SynExpr * ParseBitOrExpr();
+    SynExpr * ParseAndExpr();
+    SynExpr * ParseEquExpr();
+    SynExpr * ParseRelExpr();
+    SynExpr * ParseShiftExpr();
+    SynExpr * ParseAddExpr();
+    SynExpr * ParseMulExpr();
     SynExpr * ParseFactor();
 
 
