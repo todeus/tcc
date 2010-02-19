@@ -173,9 +173,13 @@ SynExpr * Parser::ParseAddExpr()
 SynExpr * Parser::ParseMulExpr()
 {
     SynExpr * e = ParseFactor();
-    if((s->get().getType()==ttAstr)||(s->get().getType()==ttDiv))
+    if((s->get().getType()==ttAstr)||
+       (s->get().getType()==ttDiv)||
+       (s->get().getType()==ttMod))
     {
-        while((s->get().getType()==ttAstr)||(s->get().getType()==ttDiv))
+        while((s->get().getType()==ttAstr)||
+              (s->get().getType()==ttDiv)||
+              (s->get().getType()==ttMod))
         {
             Token token = s->get();
             s->next();
@@ -206,6 +210,15 @@ SynExpr * Parser::ParseFactor()
                         r = ParseExpr();
                         if(s->get().getType()!=ttRightBracket) s->error(-10,"",s->getPos());
                         s->next();
+                        return r;
+       case ttPlus:
+       case ttMinus:
+       case ttNot:
+       case ttInc:
+       case ttDec:
+                        Token token = s->get();
+                        s->next();
+                        r = (SynExpr*)new SynUnOp(token, ParseExpr());
                         return r;
     }
     return 0;

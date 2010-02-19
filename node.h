@@ -26,6 +26,13 @@ class SynBinOp:SynExpr
     ~SynBinOp();
 };
 
+class SynUnOp:SynExpr
+{
+    public:
+    SynUnOp(Token t, SynExpr* l);
+    ~SynUnOp();
+};
+
 class SynVar:SynExpr
 {
     public:

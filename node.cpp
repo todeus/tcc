@@ -38,9 +38,21 @@ SynBinOp::SynBinOp(Token t, SynExpr* l, SynExpr* r)
     right = r;
     token = t;
 }
+
 SynBinOp::~SynBinOp()
 {
 }
+
+SynUnOp::SynUnOp(Token t, SynExpr* l)
+{
+    left = l;
+    token = t;
+}
+
+SynUnOp::~SynUnOp()
+{
+}
+
 
 SynVar::SynVar(Token t)
 {
