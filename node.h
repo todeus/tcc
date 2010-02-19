@@ -5,7 +5,25 @@
 
 class SynNode
 {
+    public:
     int print(int n);
+};
+
+class SynState:SynNode
+{
+    public:
+    SynState();
+    ~SynState();
+};
+
+class SynWhile:SynState
+{
+    public:
+    SynWhile(SynExpr* e, SynState* st);
+    ~SynWhile();
+    private:
+    SynExpr* condition;
+    SynState* operation;
 };
 
 class SynExpr:SynNode

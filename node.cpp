@@ -11,13 +11,12 @@ SynExpr::SynExpr()
 }
 int SynExpr::print(int n)
 {
-    //cout << "1" << endl;
     cout << "[" << token.getSource() << "]" << endl;
     if(left)
     {
         for(int i=0;i<n;i++)
             cout<<"   ";
-        if(left) cout<<" '-"; else cout<<".";
+        cout<<" '-";
         left->print(n+1);
     }
     if(right)
@@ -29,6 +28,18 @@ int SynExpr::print(int n)
     }
 }
 SynExpr::~SynExpr()
+{
+}
+
+SynState::SynState()
+{
+}
+
+SynState::~SynState()
+{
+}
+
+SynFor::SynFor(SynState * par1/*, SynExpr * par2*/, SynState * par3, SynState * par4)
 {
 }
 

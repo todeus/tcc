@@ -22,6 +22,10 @@ class Parser
     SynExpr * ParseMulExpr();
     SynExpr * ParseFactor();
 
+    SynState * ParseState();
+    SynState * ParseFor();
+    SynState * ParseWhile();
+
 
 };
 
