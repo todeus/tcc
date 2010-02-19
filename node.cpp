@@ -86,3 +86,10 @@ SynConst::SynConst(Token t)
 SynConst::~SynConst()
 {
 }
+
+//SynWhile::SynWhile(SynExpr* e, SynState* st)
+SynWhile::SynWhile(SynExpr* e, SynExpr* st)
+{
+    condition = e;
+    operation = st;
+}

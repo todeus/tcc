@@ -16,16 +16,6 @@ class SynState:SynNode
     ~SynState();
 };
 
-class SynWhile:SynState
-{
-    public:
-    SynWhile(SynExpr* e, SynState* st);
-    ~SynWhile();
-    private:
-    SynExpr* condition;
-    SynState* operation;
-};
-
 class SynExpr:SynNode
 {
     public:
@@ -36,6 +26,27 @@ class SynExpr:SynNode
     ~SynExpr();
     int print(int n);
 };
+/*
+class SynWhile:SynState
+{
+    public:
+    SynWhile(SynExpr* e, SynState* st);
+    ~SynWhile();
+    private:
+    SynExpr* condition;
+    SynState* operation;
+};
+*/
+class SynWhile:SynState
+{
+    public:
+    SynWhile(SynExpr* e, SynExpr* st);
+    ~SynWhile();
+    private:
+    SynExpr* condition;
+    SynExpr* operation;
+};
+
 
 class SynBinOp:SynExpr
 {

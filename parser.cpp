@@ -7,8 +7,8 @@ Parser::Parser(Scanner *scan)
 {
     s = scan;
     s->next();
-    SynExpr *e = ParseExpr();
-    e->print(0);
+    SynState *e = ParseWhile();
+    //e->print(0);
 }
 
 
@@ -234,18 +234,21 @@ SynState * Parser::ParseState()
 
 SynState * Parser::ParseWhile()
 {
+    SynState * r;
     SynExpr * e;
-    SynState * stat;
+    //SynState * stat;
+    SynExpr * stat;
 
     s->next();
-    if(s->get().getType()!=ttLeftBracket) s->error(-10,"",s->getPos());
+    if(s->get().getType()!=ttLeftBracket) s->error(-11,"",s->getPos());
     s->next();
     e = ParseExpr();
-    s->next();
-    if(s->get().getType()!=ttRightBracket) s->error(-10,"",s->getPos());
-    st = ParseState();
+    if(s->get().getType()!=ttRightBracket) s->error(-12,"",s->getPos());
+    //stat = ParseState();
+    stat = ParseExpr();
 
-    return
+    r = (SynState*)new SynWhile(e,stat);
+    return r;
 }
 
 /*

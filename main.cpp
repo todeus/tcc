@@ -47,7 +47,7 @@ int main(int argc, char* argv[])
                 case 203:   cout << "Error(" << error.pos.line << "," << error.pos.position << "): Error in numeric constant!"; break;
                 case 204:   cout << "Error(" << error.pos.line << "," << error.pos.position << "): Error in char constant!"; break;
                 case 206:   cout << "Error(" << error.pos.line << "," << error.pos.position << "): Error escape ...!"; break;
-                default:    cout << "Error: Unknown error!"; break;
+                default:    cout << "Error: Unknown error(" << error.code << ")"; break;
             }
         }
     }
