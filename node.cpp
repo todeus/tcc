@@ -38,10 +38,12 @@ SynState::SynState()
 SynState::~SynState()
 {
 }
-
-SynFor::SynFor(SynState * par1/*, SynExpr * par2*/, SynState * par3, SynState * par4)
+/*
+SynFor::SynFor(SynState * par1, SynExpr * par2, SynState * par3, SynState * par4)
 {
 }
+*/
+
 
 SynBinOp::SynBinOp(Token t, SynExpr* l, SynExpr* r)
 {
