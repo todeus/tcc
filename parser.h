@@ -6,7 +6,7 @@
 
 class Parser
 {
-    public:
+public:
     Scanner *s;
     Parser(Scanner *scan);
     SynExpr * ParseExpr();
@@ -22,10 +22,14 @@ class Parser
     SynExpr * ParseMulExpr();
     SynExpr * ParseFactor();
 
-    SynState * ParseState();
-    SynState * ParseFor();
-    SynState * ParseWhile();
+    SynExpr * ParseState();
+    SynExpr * ParseWhile();
 
+    //SynState * ParseState();
+    //SynState * ParseFor();
+    //SynState * ParseWhile();
+private:
+    SynNode * obj;
 
 };
 

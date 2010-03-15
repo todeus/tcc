@@ -7,8 +7,8 @@ Parser::Parser(Scanner *scan)
 {
     s = scan;
     s->next();
-    SynState *e = ParseWhile();
-    //e->print(0);
+    obj = ParseState();
+    obj->print(0);
 }
 
 
@@ -226,43 +226,30 @@ SynExpr * Parser::ParseFactor()
     return 0;
 }
 
-SynState * Parser::ParseState()
+SynExpr * Parser::ParseState()
 {
-    if(s->get().getString() == "while")
+    SynNode * r;
+    if(s->get().getSource() == "while")
+    {
         return ParseWhile();
+    } else {
+        return ParseExpr();
+    }
 }
 
-SynState * Parser::ParseWhile()
+SynExpr * Parser::ParseWhile()
 {
-    SynState * r;
-    SynExpr * e;
-    //SynState * stat;
-    SynExpr * stat;
+    SynNode * l;
+    SynNode * r;
 
     s->next();
     if(s->get().getType()!=ttLeftBracket) s->error(-11,"",s->getPos());
     s->next();
-    e = ParseExpr();
+    l = ParseExpr();
     if(s->get().getType()!=ttRightBracket) s->error(-12,"",s->getPos());
-    //stat = ParseState();
-    stat = ParseExpr();
+    s->next();
+    r = ParseState();
 
-    r = (SynState*)new SynWhile(e,stat);
-    return r;
+    return (SynExpr*)new SynWhile(l,r);
+
 }
-
-/*
-SynState * Parser::ParseFor()
-{
-    SynState * par_1;
-    SynExpr * par_2;
-    SynState * par_3;
-    SynState * par_4;
-    if(s->get().getString() == "for")
-    {
-        s->next();
-        if(s->get().getType()!=ttLeftBracket) s->error(-10,"",s->getPos());
-
-    }
-}
-*/

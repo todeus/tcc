@@ -4,12 +4,43 @@
 
 using namespace std;
 
+void SynNode::print(int n)
+{
+}
+
 SynExpr::SynExpr()
 {
     left = 0;
     right = 0;
 }
-int SynExpr::print(int n)
+SynExpr::~SynExpr()
+{
+}
+
+/*
+SynState::SynState()
+{
+    left = 0;
+    right = 0;
+}
+
+SynState::~SynState()
+{
+}
+*/
+
+SynBinOp::SynBinOp(Token t, SynNode* l, SynNode* r)
+{
+    left = l;
+    right = r;
+    token = t;
+}
+
+SynBinOp::~SynBinOp()
+{
+}
+
+void SynBinOp::print(int n)
 {
     cout << "[" << token.getSource() << "]" << endl;
     if(left)
@@ -27,39 +58,23 @@ int SynExpr::print(int n)
         right->print(n+1);
     }
 }
-SynExpr::~SynExpr()
-{
-}
 
-SynState::SynState()
-{
-}
-
-SynState::~SynState()
-{
-}
-/*
-SynFor::SynFor(SynState * par1, SynExpr * par2, SynState * par3, SynState * par4)
-{
-}
-*/
-
-
-SynBinOp::SynBinOp(Token t, SynExpr* l, SynExpr* r)
-{
-    left = l;
-    right = r;
-    token = t;
-}
-
-SynBinOp::~SynBinOp()
-{
-}
-
-SynUnOp::SynUnOp(Token t, SynExpr* l)
+SynUnOp::SynUnOp(Token t, SynNode* l)
 {
     left = l;
     token = t;
+}
+
+void SynUnOp::print(int n)
+{
+    cout << "[" << token.getSource() << "]" << endl;
+    if(left)
+    {
+        for(int i=0;i<n;i++)
+            cout<<"   ";
+        cout<<" '-";
+        left->print(n+1);
+    }
 }
 
 SynUnOp::~SynUnOp()
@@ -77,6 +92,11 @@ SynVar::~SynVar()
 {
 }
 
+void SynVar::print(int n)
+{
+    cout << "[" << token.getSource() << "]" << endl;
+}
+
 SynConst::SynConst(Token t)
 {
     left = 0;
@@ -86,10 +106,37 @@ SynConst::SynConst(Token t)
 SynConst::~SynConst()
 {
 }
-
-//SynWhile::SynWhile(SynExpr* e, SynState* st)
-SynWhile::SynWhile(SynExpr* e, SynExpr* st)
+void SynConst::print(int n)
 {
-    condition = e;
-    operation = st;
+    cout << "[" << token.getSource() << "]" << endl;
+}
+
+SynWhile::SynWhile(SynNode* l, SynNode* r)
+{
+    left = l;
+    right = r;
+}
+SynWhile::~SynWhile()
+{
+}
+
+void SynWhile::print(int n)
+{
+    cout << "[WHILE]" << endl;
+
+    if(left)
+    {
+        for(int i=0;i<n;i++)
+            cout<<"   ";
+        cout<<" '-";
+        left->print(n+1);
+    }
+    if(right)
+    {
+        for(int i=0;i<n;i++)
+            cout<<"   ";
+        cout<<" '-";
+        right->print(n+1);
+    }
+
 }

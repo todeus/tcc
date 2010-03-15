@@ -6,73 +6,69 @@
 class SynNode
 {
     public:
-    int print(int n);
+    virtual void print(int n);
 };
 
-class SynState:SynNode
+/*
+class SynState:public SynNode
 {
     public:
+    SynNode* left;
+    SynNode* right;
     SynState();
     ~SynState();
 };
+*/
 
-class SynExpr:SynNode
+class SynExpr:public SynNode
 {
     public:
-    SynExpr * left;
-    SynExpr * right;
+    SynNode * left;
+    SynNode * right;
     Token token;
     SynExpr();
     ~SynExpr();
-    int print(int n);
-};
-/*
-class SynWhile:SynState
-{
-    public:
-    SynWhile(SynExpr* e, SynState* st);
-    ~SynWhile();
-    private:
-    SynExpr* condition;
-    SynState* operation;
-};
-*/
-class SynWhile:SynState
-{
-    public:
-    SynWhile(SynExpr* e, SynExpr* st);
-    ~SynWhile();
-    private:
-    SynExpr* condition;
-    SynExpr* operation;
 };
 
 
-class SynBinOp:SynExpr
+class SynWhile:public SynExpr
 {
     public:
-    SynBinOp(Token t, SynExpr* l, SynExpr* r);
+    SynWhile(SynNode* l, SynNode* r);
+    ~SynWhile();
+    void print(int n);
+};
+
+
+class SynBinOp:public SynExpr
+{
+    public:
+    SynBinOp(Token t, SynNode* l, SynNode* r);
     ~SynBinOp();
+    void print(int n);
 };
 
-class SynUnOp:SynExpr
+class SynUnOp:public SynExpr
 {
     public:
-    SynUnOp(Token t, SynExpr* l);
+    SynUnOp(Token t, SynNode* l);
     ~SynUnOp();
+    void print(int n);
 };
 
-class SynVar:SynExpr
+class SynVar:public SynExpr
 {
     public:
     SynVar(Token t);
     ~SynVar();
+    void print(int n);
 };
-class SynConst:SynExpr
+class SynConst:public SynExpr
 {
     public:
     SynConst(Token t);
     ~SynConst();
+    void print(int n);
 };
 
 #endif // NODE_H
