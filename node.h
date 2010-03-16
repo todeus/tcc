@@ -31,6 +31,17 @@ private:
     SynNode * operation;
 };
 
+class SynIf:public SynExpr
+{
+public:
+    SynIf(SynNode* con, SynNode* op, SynNode* alt_op);
+    ~SynIf();
+    void print(int n);
+private:
+    SynNode * condition;
+    SynNode * operation;
+    SynNode * alt_operation;
+};
 
 class SynBlock:public SynExpr
 {

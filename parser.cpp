@@ -238,6 +238,7 @@ SynExpr * Parser::ParseState()
 {
     SynNode * r;
     if(s->get().getSource() == "while") return ParseWhile();
+    if(s->get().getSource() == "if") return ParseIf();
     else if(s->get().getType() == ttBegin) return ParseBlock();
     else
     {
@@ -263,6 +264,32 @@ SynExpr * Parser::ParseBlock()
     s->next();
     return (SynExpr*)block;
 }
+
+SynExpr * Parser::ParseIf()
+{
+    SynNode * condition;
+    SynNode * operation;
+    SynNode * alt_operation;
+
+    s->next();
+    if(s->get().getType()!=ttLeftBracket) s->error(-11,"",s->getPos());
+    s->next();
+    condition = ParseExpr();
+    if(s->get().getType()!=ttRightBracket) s->error(-12,"",s->getPos());
+    s->next();
+    operation = ParseState();
+    if(s->get().getSource() == "else")
+    {
+        s->next();
+        alt_operation = ParseState();
+        return (SynExpr*)new SynIf(condition,operation,alt_operation);
+    }
+
+
+    return (SynExpr*)new SynIf(condition,operation,NULL);
+
+}
+
 
 SynExpr * Parser::ParseWhile()
 {

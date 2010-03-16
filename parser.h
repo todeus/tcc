@@ -24,6 +24,7 @@ public:
 
     SynExpr * ParseState();
     SynExpr * ParseBlock();
+    SynExpr * ParseIf();
     SynExpr * ParseWhile();
 private:
     SynNode * obj;

@@ -130,6 +130,44 @@ void SynWhile::print(int n)
 
 }
 
+SynIf::SynIf(SynNode* con, SynNode* op, SynNode* alt_op)
+{
+    condition = con;
+    operation = op;
+    alt_operation = alt_op;
+}
+SynIf::~SynIf()
+{
+}
+
+void SynIf::print(int n)
+{
+    cout << "[IF]" << endl;
+
+    if(condition)
+    {
+        for(int i=0;i<n;i++)
+            cout<<"   ";
+        cout<<" '-";
+        condition->print(n+1);
+    }
+    if(operation)
+    {
+        for(int i=0;i<n;i++)
+            cout<<"   ";
+        cout<<" '-";
+        operation->print(n+1);
+    }
+    if(alt_operation)
+    {
+        for(int i=0;i<n;i++)
+            cout<<"   ";
+        cout<<" '-";
+        alt_operation->print(n+1);
+    }
+
+}
+
 SynBlock::SynBlock()
 {
 }
