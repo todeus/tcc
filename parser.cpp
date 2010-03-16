@@ -104,9 +104,17 @@ SynExpr * Parser::ParseAndExpr()
 SynExpr * Parser::ParseEquExpr()
 {
     SynExpr * e = ParseRelExpr();
-    if((s->get().getType()==ttNotAssign)||(s->get().getType()==ttEq))
+    if((s->get().getType()==ttNotAssign)||(s->get().getType()==ttEq)||
+        (s->get().getType()==ttAddAssign)||(s->get().getType()==ttSubAssign)||
+        (s->get().getType()==ttMulAssign)||(s->get().getType()==ttDivAssign)||
+        (s->get().getType()==ttModAssign)
+        )
     {
-        while((s->get().getType()==ttNotAssign)||(s->get().getType()==ttEq))
+        while((s->get().getType()==ttNotAssign)||(s->get().getType()==ttEq)||
+            (s->get().getType()==ttAddAssign)||(s->get().getType()==ttSubAssign)||
+            (s->get().getType()==ttMulAssign)||(s->get().getType()==ttDivAssign)||
+            (s->get().getType()==ttModAssign)
+            )
         {
             Token token = s->get();
             s->next();
@@ -229,27 +237,46 @@ SynExpr * Parser::ParseFactor()
 SynExpr * Parser::ParseState()
 {
     SynNode * r;
-    if(s->get().getSource() == "while")
+    if(s->get().getSource() == "while") return ParseWhile();
+    else if(s->get().getType() == ttBegin) return ParseBlock();
+    else
     {
-        return ParseWhile();
-    } else {
-        return ParseExpr();
+        r = ParseExpr();
+        if(s->get().getType()!=ttSemicolon) s->error(-15,"",s->getPos());
+        s->next();
+        return (SynExpr*)r;
     }
+}
+
+SynExpr * Parser::ParseBlock()
+{
+    SynBlock * block;
+    SynNode * st;
+
+    s->next();
+    block = new SynBlock();
+    while(s->get().getType()!=ttEnd)
+    {
+        st = ParseState();
+        block->push_back(st);
+    }
+    s->next();
+    return (SynExpr*)block;
 }
 
 SynExpr * Parser::ParseWhile()
 {
-    SynNode * l;
-    SynNode * r;
+    SynNode * condition;
+    SynNode * operation;
 
     s->next();
     if(s->get().getType()!=ttLeftBracket) s->error(-11,"",s->getPos());
     s->next();
-    l = ParseExpr();
+    condition = ParseExpr();
     if(s->get().getType()!=ttRightBracket) s->error(-12,"",s->getPos());
     s->next();
-    r = ParseState();
+    operation = ParseState();
 
-    return (SynExpr*)new SynWhile(l,r);
+    return (SynExpr*)new SynWhile(condition,operation);
 
 }

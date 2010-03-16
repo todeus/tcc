@@ -8,26 +8,19 @@ void SynNode::print(int n)
 {
 }
 
+SynNode::SynNode()
+{
+}
+SynNode::~SynNode()
+{
+}
+
 SynExpr::SynExpr()
 {
-    left = 0;
-    right = 0;
 }
 SynExpr::~SynExpr()
 {
 }
-
-/*
-SynState::SynState()
-{
-    left = 0;
-    right = 0;
-}
-
-SynState::~SynState()
-{
-}
-*/
 
 SynBinOp::SynBinOp(Token t, SynNode* l, SynNode* r)
 {
@@ -84,8 +77,6 @@ SynUnOp::~SynUnOp()
 
 SynVar::SynVar(Token t)
 {
-    left = 0;
-    right = 0;
     token = t;
 }
 SynVar::~SynVar()
@@ -99,8 +90,6 @@ void SynVar::print(int n)
 
 SynConst::SynConst(Token t)
 {
-    left = 0;
-    right = 0;
     token = t;
 }
 SynConst::~SynConst()
@@ -111,10 +100,10 @@ void SynConst::print(int n)
     cout << "[" << token.getSource() << "]" << endl;
 }
 
-SynWhile::SynWhile(SynNode* l, SynNode* r)
+SynWhile::SynWhile(SynNode* con, SynNode* op)
 {
-    left = l;
-    right = r;
+    condition = con;
+    operation = op;
 }
 SynWhile::~SynWhile()
 {
@@ -124,19 +113,51 @@ void SynWhile::print(int n)
 {
     cout << "[WHILE]" << endl;
 
-    if(left)
+    if(condition)
     {
         for(int i=0;i<n;i++)
             cout<<"   ";
         cout<<" '-";
-        left->print(n+1);
+        condition->print(n+1);
     }
-    if(right)
+    if(operation)
     {
         for(int i=0;i<n;i++)
             cout<<"   ";
         cout<<" '-";
-        right->print(n+1);
+        operation->print(n+1);
+    }
+
+}
+
+SynBlock::SynBlock()
+{
+}
+SynBlock::~SynBlock()
+{
+}
+void SynBlock::push_back(SynNode *st)
+{
+    body.push_back(st);
+}
+void SynBlock::print(int n)
+{
+    SynNode * c;
+
+    cout << "[BLOCK {...}]" << endl;
+
+    while(!body.empty())
+    {
+        c = body.back();
+        if(c)
+        {
+            for(int i=0;i<n;i++)
+                cout<<"   ";
+            cout<<" '-";
+            //condition->print(n+1);
+            c->print(n+1);
+        }
+        body.pop_back();
     }
 
 }

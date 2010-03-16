@@ -23,11 +23,8 @@ public:
     SynExpr * ParseFactor();
 
     SynExpr * ParseState();
+    SynExpr * ParseBlock();
     SynExpr * ParseWhile();
-
-    //SynState * ParseState();
-    //SynState * ParseFor();
-    //SynState * ParseWhile();
 private:
     SynNode * obj;
 

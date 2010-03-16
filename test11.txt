@@ -1,1 +1,9 @@
-while(q<a)c=d-e
+while(true)
+{
+    i+=2;
+    {
+        x*=10;
+    }
+    n=i+j;
+    ++j;
+}

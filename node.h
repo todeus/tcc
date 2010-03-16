@@ -1,31 +1,20 @@
 #ifndef NODE_H
 #define NODE_H
 
+#include <vector>
 #include "scanner.h"
 
 class SynNode
 {
-    public:
+public:
+    SynNode();
+    ~SynNode();
     virtual void print(int n);
 };
 
-/*
-class SynState:public SynNode
-{
-    public:
-    SynNode* left;
-    SynNode* right;
-    SynState();
-    ~SynState();
-};
-*/
-
 class SynExpr:public SynNode
 {
-    public:
-    SynNode * left;
-    SynNode * right;
-    Token token;
+public:
     SynExpr();
     ~SynExpr();
 };
@@ -33,42 +22,74 @@ class SynExpr:public SynNode
 
 class SynWhile:public SynExpr
 {
-    public:
-    SynWhile(SynNode* l, SynNode* r);
+public:
+    SynWhile(SynNode* con, SynNode* op);
     ~SynWhile();
     void print(int n);
+private:
+    SynNode * condition;
+    SynNode * operation;
+};
+
+
+class SynBlock:public SynExpr
+{
+public:
+    SynBlock();
+    ~SynBlock();
+    void print(int n);
+    void push_back(SynNode* st);
+    vector <SynNode*> body;
+    int x;
+//private:
+
 };
 
 
 class SynBinOp:public SynExpr
 {
-    public:
+public:
     SynBinOp(Token t, SynNode* l, SynNode* r);
     ~SynBinOp();
     void print(int n);
+private:
+    SynNode * left;
+    SynNode * right;
+    Token token;
+
 };
 
 class SynUnOp:public SynExpr
 {
-    public:
+public:
     SynUnOp(Token t, SynNode* l);
     ~SynUnOp();
     void print(int n);
+private:
+    SynNode * left;
+    Token token;
+
 };
 
 class SynVar:public SynExpr
 {
-    public:
+public:
     SynVar(Token t);
     ~SynVar();
     void print(int n);
+private:
+    Token token;
+
 };
 class SynConst:public SynExpr
 {
-    public:
+public:
     SynConst(Token t);
     ~SynConst();
     void print(int n);
+private:
+    Token token;
+
 };
 
 #endif // NODE_H
