@@ -43,11 +43,38 @@ private:
     SynNode * alt_operation;
 };
 
+class SynVarDecl:public SynExpr
+{
+public:
+    SynVarDecl(Token tp, Token t, SynNode* p, SynNode* b);
+    ~SynVarDecl();
+    void print(int n);
+private:
+    Token name;
+    Token type;
+    SynNode * param;
+    SynNode * body;
+};
+
+
 class SynBlock:public SynExpr
 {
 public:
     SynBlock();
     ~SynBlock();
+    void print(int n);
+    void push_back(SynNode* st);
+    vector <SynNode*> body;
+    int x;
+//private:
+
+};
+
+class SynBlockParam:public SynExpr
+{
+public:
+    SynBlockParam();
+    ~SynBlockParam();
     void print(int n);
     void push_back(SynNode* st);
     vector <SynNode*> body;

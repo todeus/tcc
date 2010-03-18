@@ -218,7 +218,7 @@ SynExpr * Parser::ParseFactor()
         case ttLeftBracket:
                         s->next();
                         r = ParseExpr();
-                        if(s->get().getType()!=ttRightBracket) s->error(-10,"",s->getPos());
+                        if(s->get().getType()!=ttRightBracket) s->error(-12,"",s->getPos());
                         s->next();
                         return r;
        case ttPlus:
@@ -237,9 +237,11 @@ SynExpr * Parser::ParseFactor()
 SynExpr * Parser::ParseState()
 {
     SynNode * r;
+
+    if(s->get().getSource() == "int")return ParseVarDecl();
     if(s->get().getSource() == "while") return ParseWhile();
     if(s->get().getSource() == "if") return ParseIf();
-    else if(s->get().getType() == ttBegin) return ParseBlock();
+    if(s->get().getType() == ttBegin) return ParseBlock();
     else
     {
         r = ParseExpr();
@@ -247,6 +249,56 @@ SynExpr * Parser::ParseState()
         s->next();
         return (SynExpr*)r;
     }
+}
+
+SynExpr * Parser::ParseVarDecl()
+{
+    Token name;
+    Token type;
+    SynNode * param;
+    SynNode * body;
+
+    type = s->get();
+    s->next();
+    name = s->get();
+    s->next();
+    if(s->get().getType()==ttLeftBracket)
+    {
+        param = ParseParam();
+        if(s->get().getType()!=ttBegin) s->error(-13,"",s->getPos());
+        body = ParseBlock();
+
+    }
+    else
+    {
+        param = NULL;
+        body = NULL;
+    }
+
+    return new SynVarDecl(type,name,param,body);
+}
+
+SynExpr * Parser::ParseParam()
+{
+    SynBlockParam * block;
+    SynNode * st;
+
+    s->next();
+    block = new SynBlockParam();
+    while(s->get().getType()!=ttRightBracket)
+    {
+        if(s->get().getType()!=ttKeyword) s->error(-10,"",s->getPos());
+        st = ParseVarDecl();
+        block->push_back(st);
+        if((s->get().getType()!=ttRightBracket)&&(s->get().getType()!=ttComma)) s->error(-14,"",s->getPos());
+        if(s->get().getType()==ttComma)
+        {
+            s->next();
+            //cout << s->get().getSource() << endl;
+        }
+    }
+    s->next();
+    return (SynExpr*)block;
 }
 
 SynExpr * Parser::ParseBlock()

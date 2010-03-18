@@ -192,10 +192,79 @@ void SynBlock::print(int n)
             for(int i=0;i<n;i++)
                 cout<<"   ";
             cout<<" '-";
-            //condition->print(n+1);
             c->print(n+1);
         }
         body.pop_back();
     }
 
+}
+
+
+SynBlockParam::SynBlockParam()
+{
+}
+SynBlockParam::~SynBlockParam()
+{
+}
+void SynBlockParam::push_back(SynNode *st)
+{
+    body.push_back(st);
+}
+void SynBlockParam::print(int n)
+{
+    SynNode * c;
+
+    cout << "[BLOCK (...)]" << endl;
+
+    while(!body.empty())
+    {
+        c = body.back();
+        if(c)
+        {
+            for(int i=0;i<n;i++)
+                cout<<"   ";
+            cout<<" '-";
+            c->print(n+1);
+        }
+        body.pop_back();
+    }
+
+}
+
+SynVarDecl::SynVarDecl(Token tp ,Token t, SynNode *p, SynNode *b)
+{
+    name = t;
+    param = p;
+    body = b;
+    type = tp;
+}
+SynVarDecl::~SynVarDecl()
+{
+}
+
+void SynVarDecl::print(int n)
+{
+        cout << "[DECLARATION]" << endl;
+        for(int i=0;i<n;i++)
+            cout<<"   ";
+        cout<<" '-[" << type.getSource() << "]" << endl;
+
+        for(int i=0;i<n;i++)
+            cout<<"   ";
+        cout<<" '-[" << name.getSource() << "]" << endl;
+
+    if(param)
+    {
+        for(int i=0;i<n;i++)
+            cout<<"   ";
+        cout<<" '-";
+        param->print(n+1);
+    }
+    if(body)
+    {
+        for(int i=0;i<n;i++)
+            cout<<"   ";
+        cout<<" '-";
+        body->print(n+1);
+    }
 }

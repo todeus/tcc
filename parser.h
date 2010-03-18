@@ -26,6 +26,8 @@ public:
     SynExpr * ParseBlock();
     SynExpr * ParseIf();
     SynExpr * ParseWhile();
+    SynExpr * ParseVarDecl();
+    SynExpr * ParseParam();
 private:
     SynNode * obj;
 
