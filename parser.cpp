@@ -6,8 +6,8 @@
 Parser::Parser(Scanner *scan)
 {
     s = scan;
-    s->next();
-    obj = ParseState();
+
+    obj = ParseBlock();
     obj->print(0);
 }
 
@@ -324,7 +324,7 @@ SynExpr * Parser::ParseBlock()
 
     s->next();
     block = new SynBlock();
-    while(s->get().getType()!=ttEnd)
+    while((s->get().getType()!=ttEnd)&&(s->get().getType()!=ttEOF))
     {
         st = ParseState();
         block->push_back(st);
