@@ -198,6 +198,55 @@ void SynIf::print(int n)
 
 }
 
+SynFor::SynFor(SynNode* con1, SynNode* con2, SynNode* con3, SynNode* op)
+{
+    condition1 = con1;
+    condition2 = con2;
+    condition3 = con3;
+    operation = op;
+}
+SynFor::~SynFor()
+{
+}
+
+void SynFor::print(int n)
+{
+    cout << "[FOR]" << endl;
+
+    if(condition1)
+    {
+        for(int i=0;i<n;i++)
+            cout<<"   ";
+        cout<<" '-";
+        condition1->print(n+1);
+    }
+    if(condition2)
+    {
+        for(int i=0;i<n;i++)
+            cout<<"   ";
+        cout<<" '-";
+        condition2->print(n+1);
+    }
+    if(condition3)
+    {
+        for(int i=0;i<n;i++)
+            cout<<"   ";
+        cout<<" '-";
+        condition3->print(n+1);
+    }
+
+    if(operation)
+    {
+        for(int i=0;i<n;i++)
+            cout<<"   ";
+        cout<<" '-";
+        operation->print(n+1);
+    }
+
+}
+
+
+
 SynBlock::SynBlock()
 {
 }

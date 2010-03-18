@@ -27,6 +27,7 @@ public:
     SynExpr * ParseIf();
     SynExpr * ParseWhile();
     SynExpr * ParseDo();
+    SynExpr * ParseFor();
     SynExpr * ParseVarDecl();
     SynExpr * ParseParam();
 private:

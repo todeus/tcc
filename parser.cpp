@@ -246,6 +246,7 @@ SynExpr * Parser::ParseState()
         return ParseVarDecl();
     if(s->get().getSource() == "while") return ParseWhile();
     if(s->get().getSource() == "do") return ParseDo();
+    if(s->get().getSource() == "for") return ParseFor();
     if(s->get().getSource() == "if") return ParseIf();
     if(s->get().getType() == ttBegin) return ParseBlock();
     else
@@ -393,5 +394,34 @@ SynExpr * Parser::ParseDo()
 
 
     return (SynExpr*)new SynDo(condition,operation);
+
+}
+
+SynExpr * Parser::ParseFor()
+{
+    SynNode * condition1;
+    SynNode * condition2;
+    SynNode * condition3;
+    SynNode * operation;
+
+    s->next();
+    if(s->get().getType()!=ttLeftBracket) s->error(-11,"",s->getPos());
+    s->next();
+    condition1 = ParseVarDecl();
+
+    if(s->get().getType()!=ttSemicolon) s->error(-15,"",s->getPos());
+    s->next();
+    condition2 = ParseExpr();
+
+    if(s->get().getType()!=ttSemicolon) s->error(-15,"",s->getPos());
+    s->next();
+    condition3 = ParseExpr();
+
+
+    if(s->get().getType()!=ttRightBracket) s->error(-12,"",s->getPos());
+    s->next();
+    operation = ParseState();
+
+    return (SynExpr*)new SynFor(condition1,condition2,condition3,operation);
 
 }

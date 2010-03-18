@@ -31,6 +31,19 @@ private:
     SynNode * operation;
 };
 
+class SynFor:public SynExpr
+{
+public:
+    SynFor(SynNode* con1, SynNode* con2, SynNode* con3, SynNode* op);
+    ~SynFor();
+    void print(int n);
+private:
+    SynNode * condition1;
+    SynNode * condition2;
+    SynNode * condition3;
+    SynNode * operation;
+};
+
 class SynDo:public SynExpr
 {
 public:
