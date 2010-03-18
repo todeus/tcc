@@ -1,1 +1,1 @@
-int foo() { a=b; }
+do {  int x=10; a+b; } while(a>b);

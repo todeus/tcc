@@ -31,6 +31,17 @@ private:
     SynNode * operation;
 };
 
+class SynDo:public SynExpr
+{
+public:
+    SynDo(SynNode* con, SynNode* op);
+    ~SynDo();
+    void print(int n);
+private:
+    SynNode * condition;
+    SynNode * operation;
+};
+
 class SynIf:public SynExpr
 {
 public:
@@ -46,12 +57,13 @@ private:
 class SynVarDecl:public SynExpr
 {
 public:
-    SynVarDecl(Token tp, Token t, SynNode* p, SynNode* b);
+    SynVarDecl(Token tp, Token t, Token val, SynNode* p, SynNode* b);
     ~SynVarDecl();
     void print(int n);
 private:
     Token name;
     Token type;
+    Token value_;
     SynNode * param;
     SynNode * body;
 };

@@ -238,8 +238,14 @@ SynExpr * Parser::ParseState()
 {
     SynNode * r;
 
-    if(s->get().getSource() == "int")return ParseVarDecl();
+    if(
+            (s->get().getSource() == "int")||
+            (s->get().getSource() == "float")||
+            (s->get().getSource() == "void")
+        )
+        return ParseVarDecl();
     if(s->get().getSource() == "while") return ParseWhile();
+    if(s->get().getSource() == "do") return ParseDo();
     if(s->get().getSource() == "if") return ParseIf();
     if(s->get().getType() == ttBegin) return ParseBlock();
     else
@@ -255,6 +261,7 @@ SynExpr * Parser::ParseVarDecl()
 {
     Token name;
     Token type;
+    Token value_;
     SynNode * param;
     SynNode * body;
 
@@ -273,9 +280,18 @@ SynExpr * Parser::ParseVarDecl()
     {
         param = NULL;
         body = NULL;
-    }
 
-    return new SynVarDecl(type,name,param,body);
+        if(s->get().getType()==ttAssign)
+        {
+            s->next();
+            if((s->get().getType()==ttInt)||(s->get().getType()==ttInt16)||(s->get().getType()==ttReal))
+                value_=s->get();
+            else
+                s->error(-8,"",s->getPos());
+        }
+    }
+    s->next();
+    return new SynVarDecl(type,name,value_,param,body);
 }
 
 SynExpr * Parser::ParseParam()
@@ -294,7 +310,6 @@ SynExpr * Parser::ParseParam()
         if(s->get().getType()==ttComma)
         {
             s->next();
-            //cout << s->get().getSource() << endl;
         }
     }
     s->next();
@@ -357,5 +372,26 @@ SynExpr * Parser::ParseWhile()
     operation = ParseState();
 
     return (SynExpr*)new SynWhile(condition,operation);
+
+}
+
+SynExpr * Parser::ParseDo()
+{
+    SynNode * condition;
+    SynNode * operation;
+
+    s->next();
+    operation = ParseState();
+    if(s->get().getSource()!="while") s->error(-9,"",s->getPos());
+    s->next();
+    if(s->get().getType()!=ttLeftBracket) s->error(-11,"",s->getPos());
+    s->next();
+    condition = ParseExpr();
+    if(s->get().getType()!=ttRightBracket) s->error(-12,"",s->getPos());
+    s->next();
+    if(s->get().getType()!=ttSemicolon) s->error(-15,"",s->getPos());
+
+
+    return (SynExpr*)new SynDo(condition,operation);
 
 }

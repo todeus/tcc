@@ -47,6 +47,8 @@ int main(int argc, char* argv[])
                 case 203:   cout << "Error(" << error.pos.line << "," << error.pos.position << "): Error in numeric constant!"; break;
                 case 204:   cout << "Error(" << error.pos.line << "," << error.pos.position << "): Error in char constant!"; break;
                 case 206:   cout << "Error(" << error.pos.line << "," << error.pos.position << "): Error escape sequence!"; break;
+                case -8:   cout << "Error(" << error.pos.line << "," << error.pos.position << "): Must be numeric"; break;
+                case -9:   cout << "Error(" << error.pos.line << "," << error.pos.position << "): Error: expected 'while'"; break;
                 case -10:   cout << "Error(" << error.pos.line << "," << error.pos.position << "): Error: expected declaration"; break;
                 case -11:   cout << "Error(" << error.pos.line << "," << error.pos.position << "): Error: expected '('"; break;
                 case -12:   cout << "Error(" << error.pos.line << "," << error.pos.position << "): Error: expected ')'"; break;

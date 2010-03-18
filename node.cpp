@@ -130,6 +130,36 @@ void SynWhile::print(int n)
 
 }
 
+SynDo::SynDo(SynNode* con, SynNode* op)
+{
+    condition = con;
+    operation = op;
+}
+SynDo::~SynDo()
+{
+}
+
+void SynDo::print(int n)
+{
+    cout << "[DO]" << endl;
+
+    if(condition)
+    {
+        for(int i=0;i<n;i++)
+            cout<<"   ";
+        cout<<" '-";
+        condition->print(n+1);
+    }
+    if(operation)
+    {
+        for(int i=0;i<n;i++)
+            cout<<"   ";
+        cout<<" '-";
+        operation->print(n+1);
+    }
+
+}
+
 SynIf::SynIf(SynNode* con, SynNode* op, SynNode* alt_op)
 {
     condition = con;
@@ -231,10 +261,11 @@ void SynBlockParam::print(int n)
 
 }
 
-SynVarDecl::SynVarDecl(Token tp ,Token t, SynNode *p, SynNode *b)
+SynVarDecl::SynVarDecl(Token tp ,Token t, Token val, SynNode *p, SynNode *b)
 {
     name = t;
     param = p;
+    value_ = val;
     body = b;
     type = tp;
 }
@@ -252,7 +283,12 @@ void SynVarDecl::print(int n)
         for(int i=0;i<n;i++)
             cout<<"   ";
         cout<<" '-[" << name.getSource() << "]" << endl;
-
+        if(value_.getSource()!="")
+        {
+            for(int i=0;i<n;i++)
+                cout<<"   ";
+            cout<<" '-[" << value_.getSource() << "]" << endl;
+        }
     if(param)
     {
         for(int i=0;i<n;i++)
